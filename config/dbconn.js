@@ -1,7 +1,6 @@
 "use strict";
 
-
-require('dotenv').config({ path: 'a.env'});
+const { env_var } = require("../env_var");
 
 const mysql = require('mysql');
 const session = require('express-session');
@@ -18,11 +17,11 @@ const MySQLStore = require('express-mysql-session')(session);
 // }
 
 const dbOption = {
-    host: "smart-aquaculture.kr",
-    port: "3306",
-    database: "imth",
-    user: "imth",
-    password: "smartaqua!",
+    host: env_var.HOST,
+    port: env_var.DB_PORT,
+    database: env_var.DATABASE,
+    user: env_var.DB_USER,
+    password: env_var.DB_PW,
     
     multipleStatements: true    // 다중쿼리문 허용
 }
