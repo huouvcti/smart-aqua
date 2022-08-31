@@ -7,6 +7,10 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
+
+const monitoringRouter = require('./routes/monitoring');
+const simulatorRouter = require('./routes/simulator');
+
 var app = express();
 
 // view engine setup
@@ -28,10 +32,14 @@ app.use(logger('dev'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-
-
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+
+
+
+
+app.use('/monitoring', monitoringRouter);
+app.use('/simulator', simulatorRouter);
 
 
 
