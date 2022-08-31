@@ -7,12 +7,22 @@ const mysql = require('mysql');
 const session = require('express-session');
 const MySQLStore = require('express-mysql-session')(session);
 
+// const dbOption = {
+//     host: process.env.HOST,
+//     port: process.env.DB_PORT,
+//     database: process.env.DATABASE,
+//     user: process.env.DB_USER,
+//     password: process.env.DB_PW,
+    
+//     multipleStatements: true    // 다중쿼리문 허용
+// }
+
 const dbOption = {
-    host: process.env.HOST,
-    port: process.env.DB_PORT,
-    database: process.env.DATABASE,
-    user: process.env.DB_USER,
-    password: process.env.DB_PW,
+    host: "smart-aquaculture.kr",
+    port: "3306",
+    database: "imth",
+    user: "imth",
+    password: "smartaqua!",
     
     multipleStatements: true    // 다중쿼리문 허용
 }
