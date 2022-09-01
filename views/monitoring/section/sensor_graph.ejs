@@ -6,6 +6,19 @@
 
     <!-- 차트 view -->
     <div id="chart_section">
+
+        <div class="chart_wrapper">
+            <div>
+                <p id="disconn_RTD" class="disconn">disconnected</p>
+                <div class="container-fluid" id="container_RTD"></div>
+            </div>
+            <div class="sensor_last">
+                <h3>수온</h3>
+                <p id="RTD_last" style="margin-top: 50px;">none</p>
+            </div>
+        </div>
+
+
         <div class="chart_wrapper">
             <div>
                 <p id="disconn_PH" class="disconn">disconnected</p>
@@ -16,28 +29,7 @@
                 <p id="PH_last" style="margin-top: 50px;" >none</p>
             </div>
         </div>
-
-        <div class="chart_wrapper">
-            <div>
-                <p id="disconn_RTD" class="disconn">disconnected</p>
-                <div class="container-fluid" id="container_RTD"></div>
-            </div>
-            <div class="sensor_last">
-                <h3>RTD</h3>
-                <p id="RTD_last" style="margin-top: 50px;">none</p>
-            </div>
-        </div>
-    
-        <div class="chart_wrapper">
-            <div>
-                <p id="disconn_SALT" class="disconn">disconnected</p>
-                <div class="container-fluid" id="container_SALT"></div>
-            </div>
-            <div class="sensor_last">
-                <h3>SALT</h3>
-                <p id="SALT_last" style="margin-top: 50px;">none</p>
-            </div>
-        </div>
+        
         <div class="chart_wrapper">
             <div>
                 <p id="disconn_DO" class="disconn">disconnected</p>
@@ -48,6 +40,19 @@
                 <p id="DO_last" style="margin-top: 50px;">none</p>
             </div>
         </div>
+        
+    
+        <div class="chart_wrapper">
+            <div>
+                <p id="disconn_SALT" class="disconn">disconnected</p>
+                <div class="container-fluid" id="container_SALT"></div>
+            </div>
+            <div class="sensor_last">
+                <h3>염분</h3>
+                <p id="SALT_last" style="margin-top: 50px;">none</p>
+            </div>
+        </div>
+        
 
     </div>
 
@@ -179,7 +184,7 @@ Highcharts.setOptions({
 
 socket.on('sensor_before_PH', async (data) => {
     for(let i=0; i<data.length; i++){
-        let temp = await data[i]['PH'];
+        let temp = Math.round(await data[i]['PH'] * 100) / 100;
         let date = await data[i]['date'];
         await PH_data.unshift(temp);
         await PH_date.unshift(date);
@@ -223,7 +228,7 @@ socket.on('sensor_before_PH', async (data) => {
 
 socket.on('sensor_before_RTD', async (data) => {
     for(i=0; i<data.length; i++){
-        let temp = await data[i]['RTD'];
+        let temp = Math.round(await data[i]['RTD'] * 10) / 10;
         let date = await data[i]['date'];
         await RTD_data.unshift(temp);
         await RTD_date.unshift(date);
@@ -257,7 +262,7 @@ socket.on('sensor_before_RTD', async (data) => {
         },
         series: [{
             animation: true,
-            name: 'RTD',
+            name: '수온',
             data: RTD_data,
             color : '#06780e',
             
@@ -267,7 +272,7 @@ socket.on('sensor_before_RTD', async (data) => {
 
 socket.on('sensor_before_SALT', async (data) => {
     for(i=0; i<data.length; i++){
-        let temp = await data[i]['SALT'];
+        let temp = Math.round(await data[i]['SALT'] * 10) / 10;
         let date = await data[i]['date'];
         await SALT_data.unshift(temp);
         await SALT_date.unshift(date);
@@ -301,7 +306,7 @@ socket.on('sensor_before_SALT', async (data) => {
         },
         series: [{
             animation: true,
-            name: 'SALT',
+            name: '염분',
             data: SALT_data,
             color: '#209be3'
         }]
@@ -310,7 +315,7 @@ socket.on('sensor_before_SALT', async (data) => {
 
 socket.on('sensor_before_DO', async (data) => {
     for(i=0; i<data.length; i++){
-        let temp = await data[i]['DO'];
+        let temp = Math.round(await data[i]['DO'] * 100) / 100;
         let date = await data[i]['date'];
         await DO_data.unshift(temp);
         await DO_date.unshift(date);
@@ -377,7 +382,7 @@ socket.on('sensor_update', async (data) => {
     } else {
         document.getElementById("disconn_PH").style.opacity = "0%";
         chart_PH.series[0].addPoint({
-            y: data["PH"],
+            y: Math.round(data['PH'] * 100) / 100,
         }, true, shift=shift_PH);
 
         PH_date.push(String(data["date"]))
@@ -390,7 +395,7 @@ socket.on('sensor_update', async (data) => {
     } else {
         document.getElementById("disconn_RTD").style.opacity = "0%";
         chart_RTD.series[0].addPoint({
-            y: data["RTD"],
+            y: Math.round(data['RTD'] * 10) / 10,
         }, true, shift=shift_RTD);
 
         RTD_date.push(String(data["date"]))
@@ -403,7 +408,7 @@ socket.on('sensor_update', async (data) => {
     } else {
         document.getElementById("disconn_SALT").style.opacity = "0%";
         chart_SALT.series[0].addPoint({
-            y: data["SALT"],
+            y: Math.round(data['SALT'] * 10) / 10,
         }, true, shift=shift_SALT);
 
         SALT_date.push(String(data["date"]))
@@ -416,7 +421,7 @@ socket.on('sensor_update', async (data) => {
     } else {
         document.getElementById("disconn_DO").style.opacity = "0%";
         chart_DO.series[0].addPoint({
-            y: data["DO"],
+            y: Math.round(data['DO'] * 100) / 100,
         }, true, shift=shift_DO);
 
         DO_date.push(String(data["date"]))
