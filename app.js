@@ -18,7 +18,7 @@ const simulatorRouter = require('./routes/simulator');
 const app = express();
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, '/views'));
 
 app.set('view engine', 'ejs');
 app.engine('ejs', require('ejs').__express)
