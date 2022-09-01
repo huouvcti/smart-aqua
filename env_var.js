@@ -1,6 +1,7 @@
 const env_var = {
     S_PORT: "8001",
-    HOST: "localhost",
+    // HOST: "localhost",
+    HOST: "smart-aquaculture.kr",
 
     DB_HOST: "oceanit.synology.me",    
     DATABASE: "fishery",
