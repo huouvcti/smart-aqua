@@ -2,7 +2,7 @@ const SocketIO = require('socket.io');
 
 const app = require('../app');
 
-const sensorDAO = require('../model/sensorDAO');
+const sensorDAO = require('../model/monitoring/sensorDAO');
 
 const socketio = (server) => {
     const io = SocketIO(server, { path: '/socket.io' });

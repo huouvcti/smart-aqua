@@ -1,17 +1,23 @@
-var express = require('express');
-var router = express.Router();
+"use strict";
+
+const express = require('express');
+const router = express.Router();
+
+const monitoringCtrl = require("../controller/monitoringCtrl");
 
 
+router.get("/", monitoringCtrl.main);
+
+router.get("/send", monitoringCtrl.sensorSend);
+
+router.route("/login")
+    .get(monitoringCtrl.login)
+    .post(monitoringCtrl.loginProcess)
 
 
-
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
-
-
-
+router.get("/log/:sensor", monitoringCtrl.log)
+router.get("/log/down/:sensor", monitoringCtrl.log_down)
+router.get("/log/del/:sensor", monitoringCtrl.log_del)
 
 
 module.exports = router;
