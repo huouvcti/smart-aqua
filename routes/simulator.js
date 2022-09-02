@@ -1,9 +1,17 @@
-var express = require('express');
-var router = express.Router();
+// var express = require('express');
+// var router = express.Router();
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
+// const simulatorCtrl = require("../controller/simulatorCtrl");
 
-module.exports = router;
+
+
+// router.get('/', simulatorCtrl.main);
+
+// router.route("/login")
+//     .get(simulatorCtrl.login)
+//     .post("/process", simulatorCtrl.loginProcess);
+// router.get("/logout", simulatorCtrl.logoutProcess);
+
+// router.get('/halibut', simulatorCtrl.halibut);
+
+// module.exports = router;

@@ -12,7 +12,8 @@ router.get("/send", monitoringCtrl.sensorSend);
 
 router.route("/login")
     .get(monitoringCtrl.login)
-    .post(monitoringCtrl.loginProcess)
+    .post(monitoringCtrl.loginProcess);
+router.get("/logout", monitoringCtrl.logoutProcess)
 
 
 router.get("/log/:sensor", monitoringCtrl.log)

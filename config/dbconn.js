@@ -3,8 +3,6 @@
 const { env_var } = require("../env_var");
 
 const mysql = require('mysql');
-const session = require('express-session');
-const MySQLStore = require('express-mysql-session')(session);
 
 
 const dbOption = {
@@ -19,11 +17,9 @@ const dbOption = {
 
 const db = mysql.createConnection(dbOption);
 
-let sessionStore = new MySQLStore(dbOption);
 
 db.connect();
 
 module.exports = {
     db,
-    sessionStore
 }

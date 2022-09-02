@@ -72,7 +72,7 @@ const loginProcess = async (req, res) => {
     }
 }
 
-const logout = async (req, res) => {
+const logoutProcess = async (req, res) => {
     delete req.session.user_key;
 
     res.send("<script>alert(`로그아웃 성공`); location.href='/monitoring/login';</script>");
@@ -159,7 +159,7 @@ module.exports = {
 
     login,
     loginProcess,
-    logout,
+    logoutProcess,
 
     log,
     log_down,

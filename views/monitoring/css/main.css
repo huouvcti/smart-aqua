@@ -73,6 +73,9 @@ h2{
  }
  
  .navbar_logoutBtn{
+	position: relative;
+	z-index: 100;
+	cursor: pointer;
 	display: inline-block; 
 	background-color: #105d94;
 	border: none;
@@ -89,7 +92,7 @@ h2{
 	position: absolute;
 	list-style: none;
 	padding-left: 0%;
-	z-index: 50;
+	z-index: 0;
 	color: #fff;
 	font-size: 30px;
 	font-weight: bold;
