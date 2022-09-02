@@ -6,7 +6,8 @@ const logger = require('morgan');
 
 
 const session = require('express-session');
-const fileStore = require('session-file-store')(session);
+// const fileStore = require('session-file-store')(session);
+const {sessionStore} = require('./config/dbconn')
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -40,7 +41,7 @@ app.use(session({
   secret: "imth", // 암호화
   resave: false,                  // 세션을 언제나 저장
   saveUninitialized: false,        // 세션이 저장되기 전 uninitialized 상태로 미리 만들어 저장
-  store: new fileStore({ path: './sessions/'}),
+  store: sessionStore,
   cookie: {
       maxAgeL: 1000 * 60 * 60
   }
