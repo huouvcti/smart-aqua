@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-    <script type="text/javascript" src="./javascripts/function.js"></script>
+    <script type="text/javascript" src="/views/simulator/script/halibut_function.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
     <style>
@@ -212,10 +212,8 @@
     <style>
         body{
             background: #1e90ff;
-            width: 1400px;
-            height: 700px;
-            margin: 0px auto 0 auto;
-            overflow: hidden;
+            width: 1500px;
+            margin: 0px auto;
         }
         #title{
             position: relative;
@@ -249,7 +247,7 @@
         }
 
         #seaweeds{
-            z-index: 0;
+            z-index: -1;
             width: 15%;
             bottom: 30px;
             right: 60px;
@@ -272,27 +270,240 @@
             /* background-color: #fff; */
             text-shadow: 0px 0px 5px #1e90ff; 
         }
+
+
         #main_contents{
-            width: 1400px;
-            height: 700px;
-            margin: 30px auto 0 auto;
+            width: 95%;
+            padding: 2.5%;
+            margin: 30px auto 50px auto;
             box-shadow: 0px 0px 20px gray;
             border-radius: 10px;
             background-color: #fff;
 
             display: grid;
-            grid-template-columns: 1fr;
-            grid-template-rows: 3fr 1fr;
             
+            grid-template-columns: 1fr;
+            grid-template-rows: 130px 1000px;
+            row-gap: 30px;
         }
 
+        #early{
+            margin: auto;
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+            border: 1px solid #aaa;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            grid-template-rows: 1fr;
+        }
+
+        fieldset legend{
+            font-size: 20px;
+            font-weight: bold;
+            color: #000
+        }
+
+        #early div{
+            box-sizing: border-box;
+            margin: 10px;
+            width: 95%;
+            height: 95%;
+            margin: auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            text-align: center;
+        }
+
+        #early div label{
+            margin: auto;
+        }
+
+
+        #early_temper_label{
+            width: 70%;
+            padding: 10%;
+            border-radius: 10px;
+            color: #fff;
+            font-weight: bold;
+            box-shadow: 0px 0px 10px #ccc;
+            background-color: #aaa;
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+        #early_temper_label:hover{
+            scale: 1.05;
+        }
+
+
+        #early div input[type=number]{
+            margin: auto 0;
+            padding: 10px;
+            width: 50%;
+            height: 30px;
+        }
+
+        #early #early_setBtn{
+            display: grid;
+            grid-template-columns: 1fr;
+            text-align: center;
+        }
+
+        #early #early_setBtn button{
+            margin: auto;
+            width: 60%;
+            padding: 5%;
+            font-weight: bold;
+            font-size: 1.2em;
+            border-radius: 10px;
+            color: #fff;
+            box-shadow: 0px 0px 10px #ccc;
+            transition: 0.3s;
+            border: none;
+            background-color: #1e90ff;
+            cursor: pointer;
+        }
+
+
+
         #result{
+            margin: auto;
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+            border: 1px solid #aaa;
+            display: grid;
+            grid-template-columns: 70% 30%;
+            grid-template-rows: 1fr;
+        }
+
+        #result div{
+
+        }
+
+        #result #chart_wrap{
+            margin: auto;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+        }
+
+        #result #chart_wrap .chart_wrap{
+            margin: 5%;
+            width: 90%;
+            height: 90%;
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-template-rows: 5% 95%;
+        }
+
+        #result #chart_wrap .chart_wrap p{
+            margin: 0;
+            font-size: 1.3em;
+        }
+
+        #result #chart_wrap .chart_wrap .chart{
+            border: 1px solid #aaa;
+            margin: 5%;
+        }
+
+
+
+
+
+        #result-set{
+            border-left: 2px solid #aaa;
+            padding: 5%;
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-template-rows: 40% 55%;
+            row-gap: 5%;
+        }
+
+        .chart{
+            box-sizing: border-box;
+            padding-top: 10%;
+            padding-right: 10%;
+            margin: 0;
+        }
+
+
+        #result-set .chart_wrap{
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-template-rows: 10% 90%;
+        }
+
+        #result-set .chart_wrap p{
+            margin: 0;
+            text-align: center;
+            font-size: 1.3em;
+        }
+
+        #result-set .chart_wrap .chart{
+            border: 1px solid #aaa;
+        }
+
+        #next-setting{
+            border: 1px solid #aaa;
+            text-align: center;
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-template-rows: 1fr 1fr 1fr;
+        }
+
+        #next-setting #next-label{
+            width: 100%;
+            margin: auto;
+            font-size: 1.3em;
+        }
+
+        #next-setting #next{
+            text-align: center;
+            width: 70%;
+            margin: auto;
+            padding: 10%;
+            font-size: 1.3em;
+        }
+
+        #next-setting button{
+            margin: auto;
+            width: 90%;
+            
+            padding: 10%;
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 1.5em;
+            font-weight: bold;
+            box-shadow: 0px 0px 10px #aaa;
+            background-color: #aaa;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        #next-setting button:hover{
+            background-color: #1e90ff;
+            scale: 1.05;
+        }
+
+
+
+
+
+
+
+        /* #result{
             display: grid;
             grid-template-columns: 2fr 1fr;
             
-        }
+        } */
 
-        #nubbci_chart{
+        /* #nubbci_chart{
             width: 90%;
             height: 90%;
             margin: auto;
@@ -460,19 +671,61 @@
             color: #fff;
             box-shadow: 0px 0px 10px #ccc;
             cursor: pointer;
-        }
+        } */
     </style>
 
     <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+
+
+    <!-- High chart -->
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/series-label.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+    <!-- 엑셀 파일 읽기 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.15.5/xlsx.full.min.js"></script>
+
+
+    <script>
+        $(document).ready(function() {
+            $.ajax ({
+                type:'GET',
+                dataType:'json',
+                url:`/simulator/halibut/show/all`,
+                success : function(result){
+                    // if(result.legnth == 0){
+                    //     // 아무것도 없을 때  
+                    // }
+                    if(result[0]['Temp'] != null){
+                        // 날짜와 수온까지 입력했을 때
+                        draw_Temp(result);
+                    }
+                    if(result[0]['TF'] != null){
+                        // 초기 중량, 총 마리 수까지 입력했을 때
+                    } 
+                    if(result[0]['OF'] != null){
+                        // 모든 값을 입력했을 때
+                    }
+                },
+                error : function(err) {
+                    console.log(err)
+                }
+            });
+
+		});
+    </script>
+
 
 
 </head>
 <body>
     <h1 id="title">넙치 성장 예측 프로그램</h1>
     
-
+<!--
     <div id="main_contents">
-        <a href="/login/logout" id="loginBtn">로그아웃</a>
+        <a href="/simulator/logout" id="loginBtn">로그아웃</a>
         <div id="result">
             <div id="nubbci_chart"></div>
             <div id="predi">
@@ -512,46 +765,230 @@
         </div>
         
     </div>
+-->
+
+
+
+
+
+
+    <div id="main_contents">
+
+        
+        <fieldset id="early">
+            <legend>초기값 설정</legend>
+            <div>
+                <label for="early_temper" id="early_temper_label">기간별 수온<br>(파일 업로드)</label>
+                <input type="file" id="early_temper" onchange="readExcel()" style="display:none;">
+                <label>(파일명)</label>
+            </div>
+            <div>
+                <label for="early_TF">총 마리수: </label>
+                <input type="number" id="early_TF">
+            </div>
+            <div>
+                <label for="early_W">개체중량(g): </label>
+                <input type="number" id="early_W">
+            </div>
+            <div id="early_setBtn">
+                <button onClick="early_set()">설정하기</button>
+            </div>
+        </fieldset>
+
+
+        <fieldset id="result">
+            <legend>시뮬레이터</legend>
+            <div id="chart_wrap">
+                <div class="chart_wrap">
+                    <p><개체 중량></p>
+                    <div class="chart"></div>
+                </div>
+
+                <div class="chart_wrap">
+                    <p><총 중량></p>
+                    <div class="chart"></div>
+                </div>
+
+                <div class="chart_wrap">
+                    <p><권장 사료량></p>
+                    <div class="chart"></div>
+                </div>
+
+                <div class="chart_wrap">
+                    <p><폐사율></p>
+                    <div class="chart"></div>
+                </div>
+            </div>
+
+
+
+            <div id="result-set">
+                <div class="chart_wrap">
+                    <p><수온></p>
+                    <div class="chart" id="chart_Temp"></div>
+                </div>
+
+                <div id="next-setting">
+                    <label for="next" id="next-label">사료 공급 하기</label>
+                    <input type="number" id="next">
+                    <button>다음날</button>
+                </div>
+                
+            </div>
+        </fieldset>
+
+        
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     <img src="../public/halibut.png" id="halibut">
     <img src="../public/seaweed.png" id="seaweeds">
 
-    <div id="start_setting">
-        <div id="start_setting_container">
-            <h2>초기값 설정</h2>
-            <span id="start_setting_close">&times;</span>
-            <table>
-                <tr>
-                    <td>TODAY</td>
-                    <td><input type="date" name="today"></td>
-                </tr>
-                <tr>
-                    <td>기간</td>
-                    <td><input type="number" name="R"></td>
-                </tr>
-                <tr>
-                    <td>개체 중량 초기값</td>
-                    <td><input type="number" name="W_early"></td>
-                </tr>
-                <tr>
-                    <td>총 마리 수</td>
-                    <td><input type="number" name="TF"></td>
-                </tr>
-                <tr>
-                    <td>사료 공급 설정</td>
-                    <td><input type="number" name="OF"></td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        <button onclick="drawChart()">실행</button>
-                    </td>
-                </tr>
-                
-            </table>
-            
-        </div>
+
+
+    <script>
+        const chart_draw = function(chart, chart_name, unit, line_color, render, chart_data){
+            return new Highcharts.Chart({
+                chart: {
+                    renderTo: render,
+                    defaultSeriesType: 'spline',
+                },
+                title: {
+                    text: '    '
+                },
+                xAxis:{
+                    categories: "",
+                    visible: false
+                },
+                yAxis: {
+                    minPadding: 0.2,
+                    maxPadding: 0.2,
+                    title: {
+                        text: unit,
+                    }
+                },
+                tooltip:{
+                    formatter: this.x,
+                    valueSuffix: unit,
+                },
+                credits: {
+                    enabled: false
+                },
+                series: [{
+                    animation: true,
+                    name: chart_name,
+                    data: chart_data,
+                    color : line_color
+                }]
+            });
+        }
+
         
-    </div>
+        
+
+        Highcharts.setOptions({
+            global: {
+                useUTC: false
+            }
+        });
+
+        let chart_temp
+
+
+
+        const draw_Temp = (result) => {
+            let Temp_data = [];
+
+            for(let i=0; i<result.length; i++){
+                let data = result[i]['Temp'];
+                Temp_data.push(data);
+            }
+
+            chart_temp = chart_draw(chart_Temp, '수온', '°C', '#00f', 'chart_Temp', Temp_data);
+        }
+    </script>
+
+
+
+
+    <!-- 엑셀 업로드 후 수온 그래프 그리기 -->
+    <script>
+        function readExcel() {
+            let input = event.target;
+            let reader = new FileReader();
+            reader.onload = function () {
+                let data = reader.result;
+                let workBook = XLSX.read(data, { type: 'binary' });
+                workBook.SheetNames.forEach(function (sheetName) {
+                    console.log('SheetName: ' + sheetName);
+                    
+                    let temper_json = XLSX.utils.sheet_to_json(workBook.Sheets[sheetName]);
+                    console.log(temper_json)
+                    
+                    $.ajax ({
+                        type:'POST',
+                        dataType:'json',
+                        data: {json: JSON.stringify(temper_json)},
+                        url:`/simulator/halibut/set/temp`,
+                        success : function(result){
+                            alert("파일 업로드 성공")
+                            console.log(result);
+
+                            draw_Temp(result);
+                        },
+                        error : function(err) {
+                            console.log(err)
+                        }
+                    });
+                })
+
+                
+            };
+            reader.readAsBinaryString(input.files[0]);
+        }
+    </script>
+
+
+    <!-- 초기 중량, 총 마리수 입력 시 그래프 업데이트 -->
+    <script>
+        function early_set(){
+            const early_TF = document.getElementById("early_TF").value
+            const early_W = document.getElementById("early_W").value
+            
+            if(chart_temp == undefined){
+                alert("기간별 수온 파일을 먼저 업로드 해주세요.")
+            } else if(early_TF == "" || early_W == ""){
+                alert("총 마리수와 초기 중량 값을 입력해주세요")
+            } else{
+                $.ajax ({
+                    type:'POST',
+                    dataType:'json',
+                    data: {TF: early_TF, early_W: early_W},
+                    url:`/simulator/halibut/set/TF`,
+                    success : function(result){
+                        alert("완료");
+                        console.log(result);
+                    },
+                    error : function(err) {
+                        console.log(err)
+                    }
+                });
+            }
+            
+        }
+    </script>
     
 
     <script>
@@ -577,3 +1014,96 @@
 </body>
 </html>
 
+
+
+
+
+<!-- <div id="start_setting">
+    <div id="start_setting_container">
+        <h2>초기값 설정</h2>
+        <span id="start_setting_close">&times;</span>
+        <table>
+            <tr>
+                <td>TODAY</td>
+                <td><input type="date" name="today"></td>
+            </tr>
+            <tr>
+                <td>기간</td>
+                <td><input type="number" name="R"></td>
+            </tr>
+            <tr>
+                <td>개체 중량 초기값</td>
+                <td><input type="number" name="W_early"></td>
+            </tr>
+            <tr>
+                <td>총 마리 수</td>
+                <td><input type="number" name="TF"></td>
+            </tr>
+            <tr>
+                <td>사료 공급 설정</td>
+                <td><input type="number" name="OF"></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <button onclick="drawChart()">실행</button>
+                </td>
+            </tr>
+            
+        </table>
+        
+    </div>
+    
+</div> -->
+
+
+
+<!-- 
+
+
+    // let Temp_data = [];
+
+    // for(let i=0; i<result.length; i++){
+    //     let data = result[i]['Temp'];
+    //     Temp_data.push(data);
+    // }
+
+    // chart_temp = chart_draw(chart_Temp, '수온', '°C', '#00f', 'chart_Temp', Temp_data);
+
+
+
+
+// chart_Temp = new Highcharts.Chart({
+    //     chart: {
+    //         renderTo: 'chart_Temp',
+    //         defaultSeriesType: 'spline',
+    //     },
+    //     title: {
+    //         text: '    '
+    //     },
+    //     xAxis:{
+    //         categories: "",
+    //         visible: false
+    //     },
+    //     yAxis: {
+    //         minPadding: 0.2,
+    //         maxPadding: 0.2,
+    //         title: {
+    //             text: '°C',
+    //         }
+    //     },
+    //     tooltip:{
+    //         formatter: this.x,
+    //         valueSuffix: '°C',
+    //     },
+    //     credits: {
+    //         enabled: false
+    //     },
+    //     series: [{
+    //         animation: true,
+    //         name: '수온',
+    //         data: Temp_data,
+    //         color : '#F00'
+    //     }]
+    // });
+
+     -->

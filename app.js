@@ -64,7 +64,7 @@ app.use('/users', usersRouter);
 
 
 app.use('/monitoring', monitoringRouter);
-// app.use('/simulator', simulatorRouter);
+app.use('/simulator', simulatorRouter);
 
 
 

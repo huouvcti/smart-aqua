@@ -336,6 +336,8 @@ socket.on('sensor_before_DO', async (data) => {
         yAxis: {
             minPadding: 0.2,
             maxPadding: 0.2,
+            max: 40,
+            min: 0,
             title: {
                 text: 'ppm',
             }
@@ -347,11 +349,13 @@ socket.on('sensor_before_DO', async (data) => {
         credits: {
             enabled: false
         },
+        zoomType: "x",
         series: [{
             animation: true,
             name: 'DO',
             data: DO_data,
-            color : '#461a91'
+            color : '#461a91',
+            shift: (data.length > 10)
         }]
     });
 })
