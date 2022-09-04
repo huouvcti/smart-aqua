@@ -803,7 +803,7 @@
                 <input type="number" id="early_W">
             </div>
             <div id="early_setBtn">
-                <button onClick="early_set()">설정하기</button>
+                <button id="early_Btn" onClick="early_set()">설정하기</button>
             </div>
         </fieldset>
 
@@ -989,6 +989,13 @@
             let early_W = document.getElementById("early_W")
             let day = document.getElementById("day")
 
+            let early_Btn = document.getElementById("early_Btn")
+            
+
+            early_TF.disabled = true;
+            early_W.disabled = true;
+            early_Btn.disabled = true;
+            early_Btn.style.backgroundColor = "#aaa";
 
             let Wg_data = result[0]['Wg'];
             let TWg_data = result[0]['TWg'];
