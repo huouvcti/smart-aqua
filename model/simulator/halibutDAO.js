@@ -21,7 +21,36 @@ const clear = (user_key) =>{
 show.all = (user_key) =>{
     return new Promise((resolve, reject) =>{
         db.query(
-            `SELECT * FROM simulator_halibut WHERE user_key=? ORDER BY day ASC`, [user_key], (err, db_data) => {
+            `SELECT month, day,
+            ROUND(Temp,2) AS Temp,
+            ROUND(TF,2) AS TF,
+            ROUND(FV,2) AS FV,
+            ROUND(OF,2) AS OF,
+            ROUND(Wg,2) AS Wg,
+            ROUND(Wig,2) AS Wig,
+            ROUND(TWg,2) AS TWg,
+            ROUND(TWig,2) AS TWig,
+            ROUND(die,2) AS die  
+            FROM simulator_halibut
+            WHERE user_key=1 ORDER BY day ASC`, [user_key], (err, db_data) => {
+            if(err) {
+                reject(err);
+            } else {
+                resolve(db_data);
+            }
+        })
+    })
+}
+
+show.right = (user_key) =>{
+    return new Promise((resolve, reject) =>{
+        db.query(
+            `SELECT
+            ROUND(FV,2) AS FV,
+            ROUND(Wg,2) AS Wg,
+            ROUND(TWg,2) AS TWg
+            FROM simulator_halibut
+            WHERE user_key=1 ORDER BY day ASC`, [user_key], (err, db_data) => {
             if(err) {
                 reject(err);
             } else {
@@ -85,8 +114,6 @@ set.FV = (parameters) =>{
     })
 }
 
-
-set.temp
 
 
 module.exports = {

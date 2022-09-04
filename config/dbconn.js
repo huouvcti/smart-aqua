@@ -23,6 +23,17 @@ let sessionStore = new MySQLStore(dbOption);
 
 db.connect();
 
+console.log("db 접속")
+
+let db_keep = function(){
+    db.query('SELECT 1', function(err){
+        if(err) {
+            console.log(err)
+        }
+    })
+}
+setInterval(db_keep, 10*1000)
+
 module.exports = {
     db,
     sessionStore,

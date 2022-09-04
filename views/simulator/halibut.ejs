@@ -689,7 +689,13 @@
 
 
     <script>
+        
+
+
         $(document).ready(function() {
+            
+
+
             $.ajax ({
                 type:'GET',
                 dataType:'json',
@@ -704,6 +710,7 @@
                     }
                     if(result[0]['TF'] != null){
                         // 초기 중량, 총 마리 수까지 입력했을 때
+                        draw_right(result);
                     } 
                     if(result[0]['OF'] != null){
                         // 모든 값을 입력했을 때
@@ -801,22 +808,22 @@
             <div id="chart_wrap">
                 <div class="chart_wrap">
                     <p><개체 중량></p>
-                    <div class="chart"></div>
+                    <div class="chart" id="chart_Wg"></div>
                 </div>
 
                 <div class="chart_wrap">
                     <p><총 중량></p>
-                    <div class="chart"></div>
+                    <div class="chart" id="chart_TWg"></div>
                 </div>
 
                 <div class="chart_wrap">
                     <p><권장 사료량></p>
-                    <div class="chart"></div>
+                    <div class="chart" id="chart_FV"></div>
                 </div>
 
                 <div class="chart_wrap">
                     <p><폐사율></p>
-                    <div class="chart"></div>
+                    <div class="chart" id="chart_die"></div>
                 </div>
             </div>
 
@@ -904,10 +911,13 @@
             }
         });
 
-        let chart_temp
+        let chart_Temp
+        let chart_Wg
+        let chart_TWg
+        let chart_FV
 
 
-
+        // 수온 그래프 그리기 
         const draw_Temp = (result) => {
             let Temp_data = [];
 
@@ -916,7 +926,25 @@
                 Temp_data.push(data);
             }
 
-            chart_temp = chart_draw(chart_Temp, '수온', '°C', '#00f', 'chart_Temp', Temp_data);
+            chart_Temp = chart_draw(chart_Temp, '수온', '°C', '#00f', 'chart_Temp', Temp_data);
+        }
+
+        // 4개 그래프 그리기 (FCR 적용 X)
+        const draw_right = (result) => {
+            let Wg_data = [];
+            let TWg_data = [];
+            let FV_data = [];
+
+
+            for(let i=0; i<result.length; i++){
+                Wg_data.push(result[i]['Wg']);
+                TWg_data.push(result[i]['TWg']);
+                FV_data.push(result[i]['FV']);
+            }
+
+            chart_Wg = chart_draw(chart_Wg, '개체중량', 'g', '#f00', 'chart_Wg', Wg_data);
+            chart_TWg = chart_draw(chart_TWg, '총중량', 'kg', '#f00', 'chart_TWg', TWg_data);
+            chart_FV = chart_draw(chart_FV, '권장사료량', 'kg', '#f00', 'chart_FV', FV_data);
         }
     </script>
 
@@ -966,8 +994,8 @@
         function early_set(){
             const early_TF = document.getElementById("early_TF").value
             const early_W = document.getElementById("early_W").value
-            
-            if(chart_temp == undefined){
+
+            if(chart_Temp == undefined){
                 alert("기간별 수온 파일을 먼저 업로드 해주세요.")
             } else if(early_TF == "" || early_W == ""){
                 alert("총 마리수와 초기 중량 값을 입력해주세요")
@@ -978,8 +1006,9 @@
                     data: {TF: early_TF, early_W: early_W},
                     url:`/simulator/halibut/set/TF`,
                     success : function(result){
+                        console.log(result)
                         alert("완료");
-                        console.log(result);
+                        draw_right(result);
                     },
                     error : function(err) {
                         console.log(err)

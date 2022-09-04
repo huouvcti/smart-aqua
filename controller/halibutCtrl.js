@@ -94,16 +94,19 @@ set.TF = async (req, res) => {
 
     const Temp = await halibutDAO.get.Temp(user_key);
     
-    let parameters = {
-        user_key: user_key
-    };
+    
 
-    let result = []
 
     // 초기 중량값은 입력값
     Wg[0] = req.body.early_W;
 
     for(let i=0; i<Temp.length; i++) {
+
+        let parameters = {
+            user_key: user_key
+        };
+
+
         if(i != 0){
             Wg[i] = fun.F_w(Temp[i-1]['Temp'], TGC[i-1], Wg[i-1])    
         }
@@ -120,12 +123,17 @@ set.TF = async (req, res) => {
         parameters.day = i+1
         
 
-        console.log(parameters);
+        // console.log(parameters);
 
-        result[i] = parameters;
+        // result.push(parameters);
 
         await halibutDAO.set.FV(parameters);
     }
+
+    let result = await halibutDAO.show.right(user_key);
+
+
+    // console.log(result);
     
     res.send(result);
     
