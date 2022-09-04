@@ -93,12 +93,12 @@ set.TF = async (req, res) => {
 
 
     const Temp = await halibutDAO.get.Temp(user_key);
-    
-    
-
 
     // 초기 중량값은 입력값
     Wg[0] = req.body.early_W;
+
+    
+
 
     for(let i=0; i<Temp.length; i++) {
 
@@ -124,26 +124,87 @@ set.TF = async (req, res) => {
         
 
         // console.log(parameters);
-
         // result.push(parameters);
 
         await halibutDAO.set.FV(parameters);
     }
 
-    let result = await halibutDAO.show.right(user_key);
+    // 1일차 Wig, TWig, OF는 Wg, TWg, FV와 동일하게 세팅
+    let Wig_set = {
+        OF: FV[0],
+        Wig: Wg[0],
+        TWig: Wg[0]*TF/1000,
+        user_key: user_key,
+        day: 1
+    }
+    await halibutDAO.set.Wig(Wig_set);
 
+    let result = await halibutDAO.show.first(user_key);
+    console.log(result);
 
-    // console.log(result);
-    
     res.send(result);
+}
+
+
+set.OF = async (req, res) => {
+    const user_key = req.session.s_user_key;
+
+    const OF = req.body.OF;
+    let day = req.body.day
+
+    let FCR         // FCR
+    let Wg_sub      // 현재 - 전날 개체중량
+    let FV          // 권장 사료량
+    let TF          // 총 마리수
+    let Wgid        // FCR 적용 증체량
+
+    let Wig         // 개체중량 (FCR 적용)
+    let TWig        // 총중량
+
+
+
+    // day 기준 당일[0], 다음 날[1] 값(day, Wg, TF, FV) 가져오기
+    let halibut_data = await halibutDAO.get.requireI(user_key, day++);
+
+
+    // 다음날
+
+    TF = halibut_data[1]['TF']
+    Wg_sub = halibut_data[1]['Wg'] - halibut_data[0]['Wg']
+    FV = halibut_data[1]['FV']
+
+    FCR = fun.F_FCR(TF, Wg_sub, FV)
+
+    Wgid = fun.F_Wgid(OF, FCR, TF)
+
+    Wig = fun.F_Wid(halibut_data[0]['Wig'], Wgid);
     
+    TWig = Wig*TF/1000
+
     
-    
+
+
+    let parameters = {
+        OF: OF,
+        Wig: Wig,
+        TWig: TWig,
+        day: day,
+        user_key: user_key
+    }
+
+    console.log(parameters);
+
+    await halibutDAO.set.Wig(parameters)
+
+    let result = await halibutDAO.show.nextDay(parameters)
+
+    console.log(result)
+
+    res.send(result[0])
 }
 
 module.exports = {
     main,
     show,
     set,
-
 }

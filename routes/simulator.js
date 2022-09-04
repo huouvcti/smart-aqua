@@ -21,5 +21,6 @@ router.get('/halibut/show/all', halibutCtrl.show.all);
 
 router.post('/halibut/set/temp', halibutCtrl.set.temp);
 router.post('/halibut/set/TF', halibutCtrl.set.TF);
+router.post('/halibut/set/OF', halibutCtrl.set.OF);
 
 module.exports = router;

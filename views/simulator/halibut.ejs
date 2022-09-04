@@ -212,7 +212,7 @@
     <style>
         body{
             background: #1e90ff;
-            width: 1500px;
+            width: 1300px;
             margin: 0px auto;
         }
         #title{
@@ -417,6 +417,7 @@
 
         #result-set{
             border-left: 2px solid #aaa;
+            height: 90%;
             padding: 5%;
             display: grid;
             grid-template-columns: 1fr;
@@ -427,7 +428,7 @@
         .chart{
             box-sizing: border-box;
             padding-top: 10%;
-            padding-right: 10%;
+            padding-right: 5%;
             margin: 0;
         }
 
@@ -462,7 +463,7 @@
             font-size: 1.3em;
         }
 
-        #next-setting #next{
+        #next-setting #nextOF{
             text-align: center;
             width: 70%;
             margin: auto;
@@ -693,9 +694,6 @@
 
 
         $(document).ready(function() {
-            
-
-
             $.ajax ({
                 type:'GET',
                 dataType:'json',
@@ -710,10 +708,14 @@
                     }
                     if(result[0]['TF'] != null){
                         // 초기 중량, 총 마리 수까지 입력했을 때
-                        draw_right(result);
+                        draw_result(result);
                     } 
-                    if(result[0]['OF'] != null){
+                    if(result[1]['OF'] != null){
                         // 모든 값을 입력했을 때
+                        for(let i=1; i<result.length; i++){
+                            drawAdd_result(result[i])
+                        }
+
                     }
                 },
                 error : function(err) {
@@ -836,9 +838,9 @@
                 </div>
 
                 <div id="next-setting">
-                    <label for="next" id="next-label">사료 공급 하기</label>
-                    <input type="number" id="next">
-                    <button>다음날</button>
+                    <label for="next" id="next-label">사료 공급 하기 <p><span id="day"></span>일차</p></label>
+                    <input type="number" id="nextOF">
+                    <button onclick="nextResult()">다음날</button>
                 </div>
                 
             </div>
@@ -866,7 +868,7 @@
 
 
     <script>
-        const chart_draw = function(chart, chart_name, unit, line_color, render, chart_data){
+        const chart_draw = function(chart, chart_name, chart_data, line_color, unit, render){
             return new Highcharts.Chart({
                 chart: {
                     renderTo: render,
@@ -902,6 +904,48 @@
             });
         }
 
+
+        const chart_draw2 = function(chart, chart_name1, chart_data1, line_color1, chart_name2, chart_data2, line_color2, unit, render){
+            return new Highcharts.Chart({
+                chart: {
+                    renderTo: render,
+                    defaultSeriesType: 'spline',
+                },
+                title: {
+                    text: '    '
+                },
+                xAxis:{
+                    categories: "",
+                    visible: false
+                },
+                yAxis: {
+                    minPadding: 0.2,
+                    maxPadding: 0.2,
+                    title: {
+                        text: unit,
+                    }
+                },
+                tooltip:{
+                    formatter: this.x,
+                    valueSuffix: unit,
+                },
+                credits: {
+                    enabled: false
+                },
+                series: [{
+                    animation: true,
+                    name: chart_name1,
+                    data: chart_data1,
+                    color : line_color1
+                },{
+                    animation: true,
+                    name: chart_name2,
+                    data: chart_data2,
+                    color : line_color2
+                }]
+            });
+        }
+
         
         
 
@@ -916,6 +960,9 @@
         let chart_TWg
         let chart_FV
 
+        
+
+        
 
         // 수온 그래프 그리기 
         const draw_Temp = (result) => {
@@ -926,25 +973,82 @@
                 Temp_data.push(data);
             }
 
-            chart_Temp = chart_draw(chart_Temp, '수온', '°C', '#00f', 'chart_Temp', Temp_data);
+            chart_Temp = chart_draw(chart_Temp, '수온', Temp_data, '#00f', '°C',  'chart_Temp');
+
+            chart_Temp.redraw()
+
+            window.addEventListener('resize', draw_result, false)
         }
 
-        // 4개 그래프 그리기 (FCR 적용 X)
-        const draw_right = (result) => {
-            let Wg_data = [];
-            let TWg_data = [];
-            let FV_data = [];
+        // 4개 그래프 세팅
+        const draw_result = (result) => {
+            let early_TF = document.getElementById("early_TF")
+            let early_W = document.getElementById("early_W")
+            let day = document.getElementById("day")
 
 
-            for(let i=0; i<result.length; i++){
-                Wg_data.push(result[i]['Wg']);
-                TWg_data.push(result[i]['TWg']);
-                FV_data.push(result[i]['FV']);
-            }
+            let Wg_data = result[0]['Wg'];
+            let TWg_data = result[0]['TWg'];
+            let FV_data = result[0]['FV'];
+            
+            
 
-            chart_Wg = chart_draw(chart_Wg, '개체중량', 'g', '#f00', 'chart_Wg', Wg_data);
-            chart_TWg = chart_draw(chart_TWg, '총중량', 'kg', '#f00', 'chart_TWg', TWg_data);
-            chart_FV = chart_draw(chart_FV, '권장사료량', 'kg', '#f00', 'chart_FV', FV_data);
+            chart_Wg = chart_draw2(chart_Wg, '개체중량', [Wg_data], '#f00', '개체중량(FCR)', [Wg_data], '#000', 'g', 'chart_Wg');
+            chart_TWg = chart_draw2(chart_TWg, '총중량', [TWg_data], '#f00', '총중량(FCR)', [TWg_data], '#000', 'kg', 'chart_TWg');
+            chart_FV = chart_draw2(chart_FV, '권장사료량', [FV_data], '#f00', '임의사료량', [FV_data], '#000', 'kg', 'chart_FV');
+
+            chart_Wg.redraw()
+            chart_TWg.redraw()
+            chart_FV.redraw()
+
+            window.addEventListener('resize', draw_result, false)
+
+
+            early_TF.value = result[0]['TF'];
+            early_W.value = Wg_data
+            day.innerText = 1;
+        }
+
+
+        const drawAdd_result = (result) => {
+            let day = document.getElementById("day")
+            let day_value = document.getElementById("day").innerText
+
+            let Wg_data = result['Wg'];
+            let Wig_data = result['Wig'];
+
+            let TWg_data = result['TWg'];
+            let TWig_data = result['TWig'];
+
+            let FV_data = result['FV'];
+            let OF_data = result['OF'];
+
+
+            chart_Wg.series[0].addPoint({
+                y: Wg_data,
+            });
+            chart_Wg.series[1].addPoint({
+                y: Wig_data
+            })
+
+            chart_TWg.series[0].addPoint({
+                y: TWg_data,
+            });
+            chart_TWg.series[1].addPoint({
+                y: TWig_data
+            })
+
+            chart_FV.series[0].addPoint({
+                y: FV_data,
+            });
+            chart_FV.series[1].addPoint({
+                y: OF_data
+            })
+
+            day.innerText = Number(day_value)+1
+
+
+
         }
     </script>
 
@@ -972,8 +1076,6 @@
                         url:`/simulator/halibut/set/temp`,
                         success : function(result){
                             alert("파일 업로드 성공")
-                            console.log(result);
-
                             draw_Temp(result);
                         },
                         error : function(err) {
@@ -992,8 +1094,8 @@
     <!-- 초기 중량, 총 마리수 입력 시 그래프 업데이트 -->
     <script>
         function early_set(){
-            const early_TF = document.getElementById("early_TF").value
-            const early_W = document.getElementById("early_W").value
+            let early_TF = document.getElementById("early_TF").value
+            let early_W = document.getElementById("early_W").value
 
             if(chart_Temp == undefined){
                 alert("기간별 수온 파일을 먼저 업로드 해주세요.")
@@ -1006,9 +1108,8 @@
                     data: {TF: early_TF, early_W: early_W},
                     url:`/simulator/halibut/set/TF`,
                     success : function(result){
-                        console.log(result)
-                        alert("완료");
-                        draw_right(result);
+                        alert("초기값 입력 완료");
+                        draw_result(result);
                     },
                     error : function(err) {
                         console.log(err)
@@ -1016,6 +1117,38 @@
                 });
             }
             
+        }
+    </script>
+
+
+    <script>
+        function nextResult(){
+            let nextOF = document.getElementById("nextOF").value
+            let day = document.getElementById("day")
+            let day_value = document.getElementById("day").innerText
+
+            if(chart_Temp == undefined){
+                alert("기간별 수온 파일을 먼저 업로드 해주세요.")
+            } else if(chart_Wg == undefined){
+                alert("총 마리수와 초기 중량 값을 입력해주세요")
+            } else if(nextOF == ""){
+                alert("사료공급량을 입력해주세요")
+            }else{
+                $.ajax ({
+                    type:'POST',
+                    dataType:'json',
+                    data: {OF: nextOF, day: day_value},
+                    url:`/simulator/halibut/set/OF`,
+                    success : function(result){
+                        alert("사료 공급 완료");
+                        drawAdd_result(result)
+                    },
+                    error : function(err) {
+                        console.log(err)
+                    }
+                });
+            }
+
         }
     </script>
     

@@ -71,11 +71,7 @@ fun.F_Wgid = (OF, FCR, TF) => {
     if(divisor === 0){
         return 0    
     } else{
-        if(OF <= 1){
-            return (OF / (FCR * TF)) *1000
-        } else {
-            return (1/(FCR * TF)) * 1000
-        }
+        return (OF / (FCR * TF)) *1000
     }
 }
 
