@@ -713,7 +713,10 @@
                     if(result[1]['OF'] != null){
                         // 모든 값을 입력했을 때
                         for(let i=1; i<result.length; i++){
-                            drawAdd_result(result[i])
+                            if(result[i]['OF'] != null){
+                                drawAdd_result(result[i])
+                            }
+                            
                         }
 
                     }

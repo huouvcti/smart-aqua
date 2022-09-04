@@ -32,7 +32,7 @@ show.all = (user_key) =>{
             ROUND(TWig,2) AS TWig,
             ROUND(die,2) AS die  
             FROM simulator_halibut
-            WHERE user_key=1 AND OF IS NOT NULL ORDER BY day ASC`, [user_key], (err, db_data) => {
+            WHERE user_key=1 ORDER BY day ASC`, [user_key], (err, db_data) => {
             if(err) {
                 reject(err);
             } else {
